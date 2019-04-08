@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using DbLibrary.Model;
+using Microsoft.EntityFrameworkCore;
 
 namespace DbLibrary.Data
 {
@@ -17,6 +18,8 @@ namespace DbLibrary.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>().ToTable("User");
+            modelBuilder.Entity<StudyClass>().ToTable("StudyClass");
+            modelBuilder.Entity<UserStudyClass>().ToTable("UserStudyClass");
 
             modelBuilder.Entity<User>()
                .Property(u => u.Email)
@@ -27,6 +30,25 @@ namespace DbLibrary.Data
             modelBuilder.Entity<User>()
                 .Property(u => u.Role)
                 .IsRequired();
+
+            modelBuilder.Entity<UserStudyClass>()
+                .HasKey(uc => new { uc.UserID, uc.StudyClassID });
+            modelBuilder.Entity<UserStudyClass>()
+                .HasOne(uc => uc.StudyClass)
+                .WithMany(sc => sc.UserStudyClasses);
+            modelBuilder.Entity<UserStudyClass>()
+                .HasOne(uc => uc.User)
+                .WithMany(sc => sc.UserStudyClasses);
+
+            modelBuilder.Entity<UserGroup>()
+                .HasKey(ug => new { ug.UserID, ug.GroupID });
+            modelBuilder.Entity<UserGroup>()
+                .HasOne(uc => uc.Group)
+                .WithMany(sc => sc.UserGroups);
+            modelBuilder.Entity<UserGroup>()
+                .HasOne(uc => uc.User)
+                .WithMany(sc => sc.UserGroups);
+
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
