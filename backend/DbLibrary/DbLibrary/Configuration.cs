@@ -10,7 +10,7 @@ namespace DbLibrary
         {
             get
             {
-                return "Data Source=.;Initial Catalog=UniversityManagement;Integrated Security=True;";
+                return "Data Source=(localdb)\\ProjectsV13;Initial Catalog=UniversityManagement;Integrated Security=True;";
             }
         }
     }

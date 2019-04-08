@@ -103,5 +103,30 @@ namespace ServicesLibrary
             }
         }
 
+        public User Login(User user)
+        {
+            using (var uow = new UnitOfWork())
+            {
+                var userRepository = uow.GetRepository<User>();
+
+                var existUser = userRepository.Entries().FirstOrDefault(u => u.Email == user.Email);
+
+                if (existUser != null)
+                {
+                    if (existUser.Password != user.Password)
+                    {
+                        throw new Exception("Wrong passowrd");
+                    }
+                    else
+                    {
+                        return existUser;
+                    }
+                }
+                else
+                {
+                    throw new Exception("Wrong email!");
+                }
+            }
+        }
     }
 }
