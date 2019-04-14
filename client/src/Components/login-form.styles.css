@@ -6,7 +6,7 @@
     padding: 20px;
 }
 
-.login-form input.form-control{
+.login-form input.form-control, .login-form select.form-control{
     width: 70%;
     display: inline;
 }
