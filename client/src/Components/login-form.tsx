@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import './login-form.styles.css';
 import HttpService from '../Services/http-service';
 import { IUser, Role } from '../Models/IUser';
+import AuthService from '../Services/auth-service';
 
 class LoginForm extends Component {
 
@@ -30,6 +31,7 @@ class LoginForm extends Component {
                     this.setState({
                         errorMessage: ''
                     })
+                    AuthService.login(user);
                 }
             )
             .catch((error) => {
