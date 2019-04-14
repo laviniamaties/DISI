@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DbLibrary;
 using DbLibrary.Model;
+using DbLibrary.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ServicesLibrary.Services;
+using WebApi.Models;
 
 namespace WebApi.Controllers
 {
@@ -22,11 +25,31 @@ namespace WebApi.Controllers
 
         // GET api/studyclass
         [HttpGet]
-        public IEnumerable<StudyClass> Get()
+        public IEnumerable<StudyClassViewModel> Get()
         {
-            var list = _studyClassService.GetAll();
+            using (var uow = new UnitOfWork())
+            {
+                var userRepo = uow.GetRepository<User>();
+                var list = _studyClassService.GetAll();
+                var listViewModels = new List<StudyClassViewModel>();
 
-            return _studyClassService.GetAll();
+                foreach (var sc in list)
+                {
+                    var userList = new List<User>();
+                    foreach(var usc in sc.UserStudyClasses)
+                    {
+                        userList.Add(userRepo.Find(usc.UserID));
+                    }
+
+                    listViewModels.Add(new StudyClassViewModel
+                    {
+                        ID = sc.ID,
+                        Title = sc.Title,
+                        Users = userList
+                    });
+                }
+                return listViewModels;
+            };
         }
     }
 }

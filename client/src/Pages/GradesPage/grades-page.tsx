@@ -1,12 +1,12 @@
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Redirect } from 'react-router';
 import AuthService from '../../Services/auth-service';
 import './grades-page.css';
 import HttpService from '../../Services/http-service';
 import {IStudyClass} from '../../Models/IStudyClass';
 
-export default class GradesPage extends Component {
+export default class GradesPage extends PureComponent<any, any> {
     state = {
         nodes: [
             {
@@ -21,7 +21,16 @@ export default class GradesPage extends Component {
                 ID: 3, 
                 Title: "tedsadsaadas"
             }
-        ]
+        ],
+        activeClass: null
+    }
+
+    /**
+     *
+     */
+    constructor(props: any) {
+        super(props);
+        this.renderNode = this.renderNode.bind(this);
     }
 
     componentDidMount(){
@@ -36,9 +45,13 @@ export default class GradesPage extends Component {
 
     }
 
+    setActiveClass = (node: IStudyClass) => {
+        console.log(node);
+    }
+
     renderNode(node: any, index: number): JSX.Element {
         return (
-            <div key={index} className="col-sm-4">
+            <div onClick={() => this.setActiveClass(node)} key={index} className="col-sm-4">
                 <div className="panel panel-default">
                     <div className="panel-heading">
                         <i className="fa fa-book"></i>
@@ -51,6 +64,22 @@ export default class GradesPage extends Component {
         );
     }
 
+    // renderUsers(node: any, index: number): JSX.Element {
+    //     return (
+    //         <div onClick={() => this.setActiveClass(node)} key={index} className="col-sm-4">
+    //             <div className="panel panel-default">
+    //                 <div className="panel-heading">
+    //                     <i className="fa fa-book"></i>
+    //                 </div>
+    //                 <div className="panel-body"> 
+    //                     {node.title}
+    //                 </div>
+    //             </div>
+    //         </div>
+    //     );
+    // }
+
+
     public render(): any {       
         let isAuth = AuthService.isAuth();
         if (!isAuth) {
@@ -61,6 +90,9 @@ export default class GradesPage extends Component {
                 ADD GRADES
                 <div className="row">
                         {this.state.nodes.map(this.renderNode)}
+                </div>
+                <div>USERS
+                    
                 </div>
             </div>
         )
