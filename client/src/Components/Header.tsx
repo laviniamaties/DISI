@@ -21,53 +21,35 @@ class Header extends PureComponent<any, any> {
         let nodes: any[] = [];
         switch (role) {
             case 0: {
-                nodes = [
-                    {
-                        title: 'Home',
-                        link: '/student'
-                    },
-                    {
-                        title: 'Profile',
-                        link: '/student/profile'
-                    },
-                    {
-                        title: 'Grades',
-                        link: '/student/grades'
-                    }
-                ];
+                nodes = [ {
+                    title: 'Home', link: '/student'
+                }, {
+                    title: 'Profile', link: '/student/profile'
+                }, {
+                    title: 'Grades', link: '/student/grades'
+                } ];
                 break;
             }
             case 1: {
-                nodes = [
-                    {
-                        title: 'Home',
-                        link: '/teacher'
-                    },
-                    {
-                        title: 'Classes & Grades',
-                        link: '/teacher/classes'
-                    }
-                ];
+                nodes = [ {
+                    title: 'Home', link: '/teacher'
+                }, {
+                    title: 'Classes & Grades', link: '/teacher/classes'
+                } ];
                 break;
             }
             case 2: {
-                nodes = [
-                    {
-                        title: 'Home',
-                        link: '/secretary'
-                    },
-                    {
-                        title: 'Enroll users',
-                        link: '/secretary/users'
-                    }
-                ]
+                nodes = [ {
+                    title: 'Home', link: '/secretary'
+                }, {
+                    title: 'Enroll users', link: '/secretary/users'
+                } ]
                 break;
             }
         }
 
         this.setState({
-            authenticatedUser,
-            nodes
+            authenticatedUser, nodes
         })
     }
 

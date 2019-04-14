@@ -27,7 +27,6 @@ export default class AuthService {
   }
 
   public static isAuth(): boolean{
-    console.log(sessionStorage.getItem('loggedUser'));
     return !!sessionStorage.getItem('loggedUser');
   }
 
