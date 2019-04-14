@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ServicesLibrary;
+using ServicesLibrary.Services;
 
 namespace WebApi
 {
@@ -25,6 +26,7 @@ namespace WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<UserService>();
+            services.AddScoped<StudyClassService>();
             services.AddCors();
             services.AddMvc();
         }

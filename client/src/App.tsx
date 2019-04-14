@@ -23,10 +23,10 @@ class App extends BaseComponent {
           <Switch>
             <Route path="/" exact component={HomePage} />
             <Route path="/login" exact component={LoginPage} />
+            <Route path="/teacher/classes/" component={GradesPage} />
             <Route path="/teacher/" component={TeacherHomePage} />
             <Route path="/student/" component={StudentHomePage} />
             <Route path="/secretary/" component={SecretaryHomePage} />
-            <Route path="/grades/" component={GradesPage} />
             <Route path="/header/" component={Header} />
           </Switch>
         </div>

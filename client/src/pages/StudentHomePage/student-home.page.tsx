@@ -3,6 +3,7 @@ import React, { PureComponent } from 'react';
 import StudentProfile from '../../Components/student-profile';
 import AuthService from '../../Services/auth-service';
 import { Redirect } from 'react-router';
+import StudentGradesComponent from '../../Components/student-grades/student-grades.component';
 
 interface IStudentHomePageState {
 
@@ -24,6 +25,7 @@ export default class StudentHomePage extends PureComponent<IStudentHomePageProps
 
         return (
             <div className='divWrapper'>
+                <StudentGradesComponent/>
                 This is student home page
                 <StudentProfile/>
             </div>
