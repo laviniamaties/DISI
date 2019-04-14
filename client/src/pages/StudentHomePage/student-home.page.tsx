@@ -1,5 +1,6 @@
 import './student-styles.css';
 import React, { PureComponent } from 'react';
+import StudentProfile from '../../Components/student-profile';
 import AuthService from '../../Services/auth-service';
 import { Redirect } from 'react-router';
 
@@ -10,7 +11,7 @@ interface IStudentHomePageState {
 interface IStudentHomePageProps {
 
 }
-export default class StudentHomePage extends PureComponent<IStudentHomePageState, IStudentHomePageProps> {
+export default class StudentHomePage extends PureComponent<IStudentHomePageProps, IStudentHomePageState> {
     constructor(props: IStudentHomePageProps) {
         super(props);
     }
@@ -23,6 +24,7 @@ export default class StudentHomePage extends PureComponent<IStudentHomePageState
         return (
             <div className='divWrapper'>
                 This is student home page
+                <StudentProfile/>
             </div>
         )
     }

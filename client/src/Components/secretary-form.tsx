@@ -25,46 +25,54 @@ class SecretaryForm extends Component {
 
         public render(): any {
             return(
-                <div className="container">
+                <div className="container text-center">
                     <h5>Student Profile</h5>
                     <form onSubmit={this.handleSubmit}>
                         <div className='secretary-form'>
+                        <div>FirstName</div>
                             <input
                                 type="text"
                                 name="firstname"
                                 value = {this.state.firstname}
                                 onChange={this.handleChange}
-                                className={'form-input'}
+                                className={'form-control'}
                             />
+                        <div>LastName</div>
+
                             <input
                                 type="text"
                                 name="lastname"
                                 value = { this.state.lastname}
                                 onChange={this.handleChange}
-                                className={'form-input'}
+                                className={'form-control'}
                             />
+
+                        <div>Email</div>
                             <input
                                 type="text"
                                 name="email"
                                 value = { this.state.email}
                                 onChange={this.handleChange}
-                                className={'form-input'}
+                                className={'form-control'}
                             />
-                        <input
-                            type="text"
-                            name="phone"
-                            value = { this.state.phone}
-                            onChange={this.handleChange}
-                            className={'form-input'}
-                        />
-                        <input
-                            type="text"
-                            name="address"
-                            value = { this.state.address}
-                            onChange={this.handleChange}
-                            className={'form-input'}
-                        />
-                        <button>Submit</button>
+                         <div>Phone</div>
+                            <input
+                                type="text"
+                                name="phone"
+                                value = { this.state.phone}
+                                onChange={this.handleChange}
+                                className={'form-control'}
+                            />
+                         <div>Address</div>    
+                            <input
+                                type="text"
+                                name="address"
+                                value = { this.state.address}
+                                onChange={this.handleChange}
+                                className={'form-control'}
+                            />
+                        <div><button>View</button></div>
+                        <button>Update</button>
                     </div>
                 </form>
             </div>
