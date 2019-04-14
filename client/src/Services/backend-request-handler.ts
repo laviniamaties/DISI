@@ -33,6 +33,20 @@ export default class BackendRequestHandler {
             .catch(error => { return new Error(error); });
     };
 
+    public static updateRequest = (backendUrl: string, body: any): Promise<any> => {
+        return fetch(BackendRequestHandler.root + backendUrl, {
+            method: 'UPDATE',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        })
+            .then(response => {return response.json()})
+            .catch(error => {return new Error(error)});
+    };
+
+
     public static postRequest = (backendUrl: string, body: any): Promise<any> => {
         return fetch(BackendRequestHandler.root + backendUrl, {
             method: 'POST',

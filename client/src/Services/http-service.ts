@@ -28,4 +28,16 @@ export default class HttpService {
         })
     }
 
+    public static doUpdateRequest<T>(url: string, body: T): Promise<T> {
+        return new Promise((resolve, reject) => {
+            axios.put(this.root + url, body).then((response: any) => {
+                resolve(response.data);
+            })
+            .catch(
+                (error: any) => {
+                    reject(error.response);
+            })
+        })
+    }
+
 }
