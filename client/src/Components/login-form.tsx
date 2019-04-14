@@ -1,43 +1,50 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import './login-form.styles.css';
 import HttpService from '../Services/http-service';
 import { IUser, Role } from '../Models/IUser';
 import AuthService from '../Services/auth-service';
 
-class LoginForm extends Component {
+export default class LoginForm extends PureComponent<any, any> {
+    constructor(props: any) {
+        super(props);
 
-    state = {
-        open: false, 
-        email: '',
-        password: '',
-        role: 0,
-        isLoginForm: true,
-        errorMessage: ''
+        this.state = {
+            open: false,
+            email: '',
+            password: '',
+            role: 0,
+            isLoginForm: true,
+            errorMessage: ''
+        }
     }
 
     private handleSubmit = (e: any) => {
         e.preventDefault();
-        var user : IUser = {
-            Email: this.state.email, 
-            Password: this.state.password, 
-            Role: this.state.role, 
+
+        const user : IUser = {
+            email: this.state.email,
+            password: this.state.password,
+            role: this.state.role,
             ID: 0
         };
-        let url = !this.state.isLoginForm ? 'users' : 'login';
+        const url = !this.state.isLoginForm ? 'users' : 'login';
+
         HttpService.doPostRequest<IUser>(url, user)
             .then(
                 (result) => {
                     console.log('login / register successful');
+
                     this.setState({
                         errorMessage: ''
-                    })
-                    AuthService.login(user);
+                    });
+
+                    AuthService.login(result);
                 }
             )
             .catch((error) => {
                 console.log(error)
                 this.setState({
-                    errorMessage: error.data
+                    errorMessage: error
                 })
             })
     }
@@ -99,7 +106,7 @@ class LoginForm extends Component {
                                 <div style={{color:'red'}}>{this.state.errorMessage}</div>
                                 <button className="btn btn-primary login-btn">{this.state.isLoginForm ? "Login" : "Register"}</button>
                                 <div>
-                                    <a href="#" onClick={(e) => this.togglRegisterState(e)}>{this.state.isLoginForm ? "Create an Account" : "Already have an account? Sign in"}</a>  
+                                    <a href="#" onClick={(e) => this.togglRegisterState(e)}>{this.state.isLoginForm ? "Create an Account" : "Already have an account? Sign in"}</a>
                                 </div>
                             </div>
                         </form>
@@ -109,5 +116,3 @@ class LoginForm extends Component {
         )
     }
 }
-
-export default LoginForm

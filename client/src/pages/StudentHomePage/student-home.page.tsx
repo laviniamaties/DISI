@@ -21,6 +21,7 @@ export default class StudentHomePage extends PureComponent<IStudentHomePageProps
         if (!isAuth) {
             return <Redirect to='/login' />;
         }
+
         return (
             <div className='divWrapper'>
                 This is student home page

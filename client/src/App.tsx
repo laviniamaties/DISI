@@ -10,6 +10,7 @@ import { Switch } from 'react-router';
 import AuthService from './Services/auth-service';
 import BaseComponent from './BaseComponent';
 import HomePage from './Pages/HomePage/home-page';
+import GradesPage from './Pages/GradesPage/grades-page';
 
 class App extends BaseComponent {
   public render(): any {
@@ -22,9 +23,10 @@ class App extends BaseComponent {
           <Switch>
             <Route path="/" exact component={HomePage} />
             <Route path="/login" exact component={LoginPage} />
-            <Route path="/teachers/" component={TeacherHomePage} />
-            <Route path="/students/" component={StudentHomePage} />
+            <Route path="/teacher/" component={TeacherHomePage} />
+            <Route path="/student/" component={StudentHomePage} />
             <Route path="/secretary/" component={SecretaryHomePage} />
+            <Route path="/grades/" component={GradesPage} />
             <Route path="/header/" component={Header} />
           </Switch>
         </div>
