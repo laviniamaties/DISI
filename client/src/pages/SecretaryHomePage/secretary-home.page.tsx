@@ -1,5 +1,6 @@
 import './secretary-styles.css';
 import React, { PureComponent } from 'react';
+import SecretaryForm from '../../Components/secretary-form';
 
 interface ISecretaryHomePageProps {
 
@@ -17,6 +18,7 @@ export default class SecretaryHomePage extends PureComponent<ISecretaryHomePageS
         return (
             <div className='divWrapper'>
                 This is secretary home page
+                <SecretaryForm />
             </div>
         )
     }
