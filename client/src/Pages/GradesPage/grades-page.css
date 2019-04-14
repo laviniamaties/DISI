@@ -44,3 +44,7 @@
     input.form-control{
         width: 100px ;
     }
+
+    .succesMessage{
+        color: green;
+    }

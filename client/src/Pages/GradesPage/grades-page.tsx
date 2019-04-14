@@ -27,7 +27,8 @@ export default class GradesPage extends PureComponent<any, any> {
             title: "",
             users: []
         },
-        activeClassId: -1
+        activeClassId: -1,
+        message: ''
     }
 
     /**
@@ -53,7 +54,8 @@ export default class GradesPage extends PureComponent<any, any> {
     setActiveClass = (node: any) => {
         this.setState({
             activeClass: node,
-            activeClassId: node.id
+            activeClassId: node.id,
+            message: ""
         })
     }
 
@@ -105,7 +107,7 @@ export default class GradesPage extends PureComponent<any, any> {
     saveGrades(){
         HttpService.doPostRequest<any>('studyclass', this.state.activeClass).then(
             (result) => {
-
+                this.setState({message: "Succes!"});
             }
         ).catch(error => {
             console.log(error);
@@ -123,7 +125,7 @@ export default class GradesPage extends PureComponent<any, any> {
                 <div className="row">
                     {this.state.nodes.map(this.renderNode)}
                 </div>
-                <div>USERS
+                <div>USERS <div className="succesMessage">{this.state.message}</div>
                     {
                         this.state.activeClass.id !== -1 ?
                             <div>
