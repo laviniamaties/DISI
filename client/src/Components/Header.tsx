@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
 
 import './Header.css';
+import AuthService from '../Services/auth-service';
 
 class Header extends Component {
     constructor(props: any) {
@@ -42,6 +43,9 @@ class Header extends Component {
             <div className="header">
                 <div className="header-nodes">
                     {this.state.nodes.map(this.renderNode)}
+                </div>
+                <div className="header-nodes logout" onClick={() => AuthService.logout()}>
+                    <div><span>Logout</span></div>
                 </div>
             </div>
         );

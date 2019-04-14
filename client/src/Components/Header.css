@@ -28,6 +28,15 @@
     padding: 18px 40px;
 }
 
+.logout{
+    flex: 0 0 100px;
+    padding: 17px 40px;
+}
+
+.logout:hover {
+    background: red;
+}
+
 .active{
     background: red;
 }

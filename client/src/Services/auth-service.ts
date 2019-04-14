@@ -9,7 +9,6 @@ export default class AuthService {
   }
 
   public static login(user: IUser): void {
-    debugger
     sessionStorage.setItem('loggedUser', JSON.stringify(user));
     this.isLoginSubject.next(true);
   }
