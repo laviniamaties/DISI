@@ -3,7 +3,7 @@
 }
 
 .panel{
-    background: #ccc;
+    background: rgba(0,95,95, 0.1);
     margin: 10px;
     border-radius: 4px;
 }
@@ -16,10 +16,31 @@
     text-decoration: none;
     margin: 5px 2px;
     color: white;
-    background: gray;
+    background: #005f5f;
     border-radius: 50%;
   }
   
   .fa:hover {
       opacity: 0.7;
   }
+
+  .active{
+      background: #005f5f;
+      color: white;
+  }
+
+  .panel{
+    cursor: pointer;
+  }
+
+  .active .fa{
+      background: white;
+      color: #005f5f;
+  }
+
+  .user{
+      margin-top: 5px;
+    }
+    input.form-control{
+        width: 100px ;
+    }

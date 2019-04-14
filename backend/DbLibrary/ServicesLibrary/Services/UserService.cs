@@ -72,7 +72,11 @@ namespace ServicesLibrary
                     else
                     {
                         entity.Email = user.Email;
-                        entity.Password = user.Password;
+
+                        if(user.Password != null)
+                        {
+                            entity.Password = user.Password;
+                        }
 
                         userRepository.Edit(entity);
                         uow.SaveChanges();

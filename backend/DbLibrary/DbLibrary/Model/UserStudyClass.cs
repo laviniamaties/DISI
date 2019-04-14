@@ -6,5 +6,6 @@
         public virtual User User { get; set; }
         public int StudyClassID { get; set; }
         public virtual StudyClass StudyClass { get; set; }
+        public double Grade { get; set; }
     }
 }
