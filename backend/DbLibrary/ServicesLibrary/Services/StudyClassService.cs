@@ -20,5 +20,27 @@ namespace ServicesLibrary.Services
                 return list;
             }
         }
+
+        public UserStudyClass Update(int studyClassId, int userId, double grade)
+        {
+            using (var uow = new UnitOfWork())
+            {
+                var userStudyClassRepo = uow.GetRepository<UserStudyClass>();
+
+                var entity = userStudyClassRepo.Entries().Where(uc => uc.UserID == userId && uc.StudyClassID == studyClassId).FirstOrDefault();
+
+                if (entity == null)
+                {
+                    throw new Exception("Invalid id");
+                }
+                else
+                {
+                    entity.Grade = grade;
+                    userStudyClassRepo.Edit(entity);
+                    uow.SaveChanges();
+                    return entity;
+                }
+            }
+        }
     }
 }

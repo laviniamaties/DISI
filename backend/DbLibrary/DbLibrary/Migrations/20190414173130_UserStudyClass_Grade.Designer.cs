@@ -3,14 +3,16 @@ using DbLibrary.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DbLibrary.Migrations
 {
     [DbContext(typeof(UniversityManagementContext))]
-    partial class UniversityManagementContextModelSnapshot : ModelSnapshot
+    [Migration("20190414173130_UserStudyClass_Grade")]
+    partial class UserStudyClass_Grade
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

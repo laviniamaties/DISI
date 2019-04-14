@@ -30,15 +30,24 @@ namespace WebApi.Controllers
             using (var uow = new UnitOfWork())
             {
                 var userRepo = uow.GetRepository<User>();
+                var studyClassUserRepo = uow.GetRepository<UserStudyClass>();
                 var list = _studyClassService.GetAll();
                 var listViewModels = new List<StudyClassViewModel>();
 
                 foreach (var sc in list)
                 {
-                    var userList = new List<User>();
+                    var userList = new List<UserViewModel>();
                     foreach(var usc in sc.UserStudyClasses)
                     {
-                        userList.Add(userRepo.Find(usc.UserID));
+                        var user = userRepo.Find(usc.UserID);
+                        var userViewModel = new UserViewModel
+                        {
+                            ID = user.ID,
+                            Email = user.Email,
+                            Role = user.Role,
+                            Grade = usc.Grade
+                        };
+                        userList.Add(userViewModel);
                     }
 
                     listViewModels.Add(new StudyClassViewModel
@@ -51,5 +60,24 @@ namespace WebApi.Controllers
                 return listViewModels;
             };
         }
+
+        // POST api/studyclass
+        [HttpPost]
+        public IActionResult Post([FromBody]StudyClassViewModel studyClassViewModel)
+        {
+            try
+            {
+                foreach(var u in studyClassViewModel.Users)
+                {
+                    _studyClassService.Update(studyClassViewModel.ID, u.ID, u.Grade);
+                }
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
     }
 }
