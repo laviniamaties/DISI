@@ -8,21 +8,10 @@ import SecretaryHomePage from './Pages/SecretaryHomePage/secretary-home.page';
 import Header from './Components/Header';
 import { Switch } from 'react-router';
 import AuthService from './Services/auth-service';
+import BaseComponent from './BaseComponent';
+import HomePage from './Pages/HomePage/home-page';
 
-class App extends Component {
-  state = {
-    isLoggedIn: false
-  };
-
-  componentDidMount(){
-    AuthService.isLoggedIn().subscribe((res) => {
-        console.log(res);
-        this.setState({
-          isLoggedIn: res
-      })
-    }); 
-  }
-
+class App extends BaseComponent {
   public render(): any {
     return (
       <Router>
@@ -31,7 +20,8 @@ class App extends Component {
             this.state.isLoggedIn ? <Header /> : <div></div>
           }
           <Switch>
-            <Route path="/" exact component={LoginPage} />
+            <Route path="/" exact component={HomePage} />
+            <Route path="/login" exact component={LoginPage} />
             <Route path="/teachers/" component={TeacherHomePage} />
             <Route path="/students/" component={StudentHomePage} />
             <Route path="/secretary/" component={SecretaryHomePage} />

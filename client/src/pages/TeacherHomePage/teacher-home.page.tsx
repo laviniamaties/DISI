@@ -1,5 +1,7 @@
 
 import React, { PureComponent } from 'react';
+import AuthService from '../../Services/auth-service';
+import { Redirect } from 'react-router';
 
 interface ITeacherHomePageState {
 
@@ -14,6 +16,10 @@ export default class TeacherHomePage extends PureComponent<ITeacherHomePageState
     }
 
     public render(): any {
+        let isAuth = AuthService.isAuth();
+        if (!isAuth) {
+            return <Redirect to='/login' />;
+        }
         return (
             <div className='divWrapper'>
                 This is teacher home page

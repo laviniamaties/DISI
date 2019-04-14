@@ -23,6 +23,12 @@ export default class AuthService {
   }
 
   public static getAuthenticatedUser(): IUser{
-    return JSON.parse(localStorage.getItem('currentUser') || '{}');
+    return JSON.parse(sessionStorage.getItem('loggedUser') || '{}');
   }
+
+  public static isAuth(): boolean{
+    console.log(sessionStorage.getItem('loggedUser'));
+    return !!sessionStorage.getItem('loggedUser');
+  }
+
 }
