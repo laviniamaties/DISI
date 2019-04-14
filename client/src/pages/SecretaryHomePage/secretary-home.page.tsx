@@ -1,6 +1,5 @@
 import './secretary-styles.css';
 import React, { PureComponent } from 'react';
-import SecretaryForm from '../../Components/secretary-form';
 import { Redirect } from 'react-router';
 import AuthService from '../../Services/auth-service';
 
@@ -24,7 +23,6 @@ export default class SecretaryHomePage extends PureComponent<ISecretaryHomePageS
         return (
             <div className='divWrapper'>
                 This is secretary home page
-                <SecretaryForm />
             </div>
         )
     }

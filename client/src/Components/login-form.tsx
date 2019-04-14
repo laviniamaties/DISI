@@ -25,7 +25,7 @@ export default class LoginForm extends PureComponent<any, any> {
             email: this.state.email,
             password: this.state.password,
             role: this.state.role,
-            ID: 0
+            id: 0
         };
         const url = !this.state.isLoginForm ? 'users' : 'login';
 
