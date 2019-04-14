@@ -7,13 +7,29 @@ import StudentHomePage from './Pages/StudentHomePage/student-home.page';
 import SecretaryHomePage from './Pages/SecretaryHomePage/secretary-home.page';
 import Header from './Components/Header';
 import { Switch } from 'react-router';
+import AuthService from './Services/auth-service';
 
 class App extends Component {
+  state = {
+    isLoggedIn: false
+  };
+
+  componentDidMount(){
+    AuthService.isLoggedIn().subscribe((res) => {
+        console.log(res);
+        this.setState({
+          isLoggedIn: res
+      })
+    }); 
+  }
+
   public render(): any {
     return (
       <Router>
         <div className="app">
-          <Header />
+          {
+            this.state.isLoggedIn ? <Header /> : <div></div>
+          }
           <Switch>
             <Route path="/" exact component={LoginPage} />
             <Route path="/teachers/" component={TeacherHomePage} />
