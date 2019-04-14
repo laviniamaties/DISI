@@ -5,17 +5,25 @@ import LoginPage from './Pages/LoginPage/login-page';
 import TeacherHomePage from './Pages/TeacherHomePage/teacher-home.page';
 import StudentHomePage from './Pages/StudentHomePage/student-home.page';
 import SecretaryHomePage from './Pages/SecretaryHomePage/secretary-home.page';
+import Header from './Components/Header';
+import { Switch } from 'react-router';
 
 class App extends Component {
   public render(): any {
-    return(
+    return (
       <Router>
-        <Route path="/" exact component={LoginPage} />
-        <Route path="/teacher/" component={TeacherHomePage} />
-        <Route path="/student/" component={StudentHomePage} />
-        <Route path="/secretary/" component={SecretaryHomePage} />
+        <div className="app">
+          <Header />
+          <Switch>
+            <Route path="/" exact component={LoginPage} />
+            <Route path="/teachers/" component={TeacherHomePage} />
+            <Route path="/students/" component={StudentHomePage} />
+            <Route path="/secretary/" component={SecretaryHomePage} />
+            <Route path="/header/" component={Header} />
+          </Switch>
+        </div>
       </Router>
-    )
+    );
   }
 }
 
