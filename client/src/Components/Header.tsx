@@ -24,6 +24,10 @@ class Header extends Component {
         {
             title: "Secretary",
             link: '/secretary'
+        },
+        {
+            title: "Grades",
+            link: '/grades'
         }
         ]
     };
