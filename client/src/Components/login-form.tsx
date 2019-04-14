@@ -1,13 +1,15 @@
 import React, { Component } from 'react'
 import './login-form.styles.css';
+import BackendRequestHandler from '../Services/backend-request-handler';
+import { IUser, Role } from '../Models/IUser';
 
 class LoginForm extends Component {
 
     state = {
+        open: false, 
         email: '',
         password: '',
-        role: 'Student',
-        open: false, 
+        role: 0,
         isRegisterForm: false
     }
 
@@ -16,6 +18,12 @@ class LoginForm extends Component {
     private handleSubmit = (e: any) => {
         e.preventDefault();
         console.log(this.state)
+        // var user : IUser = {
+        //     Email: this.state.email, 
+        //     Password: this.state.password, 
+        //     Role: Role.Secretary, 
+        //     ID: 0
+        // }
     }
 
     private handleChange = (e: any) => {
@@ -26,13 +34,11 @@ class LoginForm extends Component {
 
     private selectRole = (e: any): void => {
         this.setState({
-            role: e.target.value
+            role: Role[e.target.value]
         })
     }
 
     private togglRegisterState(e: any){
-        e.preventDefault();
-        e.stopPropagation();
         this.setState({isRegisterForm: !this.state.isRegisterForm});
     }
 
@@ -66,10 +72,10 @@ class LoginForm extends Component {
                                     <div>
                                         <div>Type</div>
                                         <div>
-                                            <select value={this.state.role} onChange={this.selectRole} className="form-control">
-                                                <option>Student</option>
-                                                <option>Secretary</option>
-                                                <option>Teacher</option>
+                                            <select value={Role[this.state.role]} onChange={this.selectRole} className="form-control">
+                                                <option>{Role[Role.Student]}</option>
+                                                <option>{Role[Role.Secretary]}</option>
+                                                <option>{Role[Role.Teacher]}</option>
                                             </select>
                                         </div>
                                     </div> : <div></div>
