@@ -1,5 +1,6 @@
 ﻿using DbLibrary.Model;
 using DbLibrary.Repository;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,8 +16,8 @@ namespace ServicesLibrary.Services
             using (var uow = new UnitOfWork())
             {
                 var studyClassRepo = uow.GetRepository<StudyClass>();
-
-                return studyClassRepo.Entries().ToList();
+                var list = studyClassRepo.Entries().Include(sc => sc.UserStudyClasses).ToList();
+                return list;
             }
         }
     }

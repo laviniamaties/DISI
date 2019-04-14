@@ -24,6 +24,8 @@ namespace WebApi.Controllers
         [HttpGet]
         public IEnumerable<StudyClass> Get()
         {
+            var list = _studyClassService.GetAll();
+
             return _studyClassService.GetAll();
         }
     }
