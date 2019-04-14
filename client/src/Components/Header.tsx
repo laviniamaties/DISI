@@ -25,8 +25,6 @@ class Header extends PureComponent<any, any> {
                     title: 'Home', link: '/student'
                 }, {
                     title: 'Profile', link: '/student/profile'
-                }, {
-                    title: 'Grades', link: '/student/grades'
                 } ];
                 break;
             }
