@@ -26,6 +26,7 @@ export default class StudentHomePage extends PureComponent<IStudentHomePageProps
         return (
             <div className='divWrapper'>
                 <StudentProfile/>
+                <StudentGradesComponent/>
             </div>
         )
     }

@@ -44,7 +44,7 @@ export default class LoginForm extends PureComponent<any, any> {
             .catch((error) => {
                 console.log(error)
                 this.setState({
-                    errorMessage: error.data
+                    errorMessage: !!error.data ? error.data : error
                 })
             })
     }
