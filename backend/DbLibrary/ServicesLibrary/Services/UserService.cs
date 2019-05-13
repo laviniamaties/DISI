@@ -1,4 +1,6 @@
 ﻿using DbLibrary;
+using DbLibrary.Data;
+using DbLibrary.Model;
 using DbLibrary.Repository;
 using System;
 using System.Collections.Generic;
@@ -130,6 +132,17 @@ namespace ServicesLibrary
                 {
                     throw new Exception("Wrong email!");
                 }
+            }
+        }
+
+        public List<UserStudyClass> GetGrades(int id)
+        {
+            using (var context = new UniversityManagementContext())
+            {
+                var user = context.Users.Find(id);
+                context.Entry(user).Collection(u => u.UserStudyClasses).Load();
+                var grades = user.UserStudyClasses.ToList();
+                return grades;
             }
         }
     }
