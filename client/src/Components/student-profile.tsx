@@ -21,7 +21,12 @@ export default class StudentProfile extends PureComponent<any, any> {
         const authenticatedUser = AuthService.getAuthenticatedUser();
 
         this.setState({
-            email: authenticatedUser.email
+            email: authenticatedUser.email,
+            firstname: authenticatedUser.firstName,
+            lastname: authenticatedUser.lastName,
+            phone: authenticatedUser.phone,
+            address: authenticatedUser.address
+            
         })
     }
     
@@ -34,7 +39,11 @@ export default class StudentProfile extends PureComponent<any, any> {
 
         const user : IUser = {
             id: authenticatedUser.id,
-            email: this.state.email
+            email: this.state.email,
+            firstName: this.state.firstname, 
+            lastName: this.state.lastname, 
+            phone: this.state.phone,
+            address: this.state.address
         };
 
         console.log(authenticatedUser);

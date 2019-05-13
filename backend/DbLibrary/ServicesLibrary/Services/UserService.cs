@@ -74,8 +74,12 @@ namespace ServicesLibrary
                     else
                     {
                         entity.Email = user.Email;
+                        entity.FirstName = user.FirstName;
+                        entity.LastName = user.LastName;
+                        entity.Phone = user.Phone;
+                        entity.Address = user.Address;
 
-                        if(user.Password != null)
+                        if (user.Password != null)
                         {
                             entity.Password = user.Password;
                         }
