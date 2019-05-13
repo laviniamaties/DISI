@@ -10,21 +10,6 @@ export default class StudentGradesComponent extends PureComponent<any, any> {
 
         this.state = {
             nodes: [
-                {
-                    ID: 1,
-                    title: "DISI",
-                    grade: 9
-                },
-                {
-                    ID: 2,
-                    title: "Distributed Systems",
-                    grade: 4
-                },
-                {
-                    ID: 3,
-                    title: "Logic Design",
-                    grade: 7
-                }
             ]
         }
     }
