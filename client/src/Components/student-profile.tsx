@@ -12,43 +12,48 @@ export default class StudentProfile extends PureComponent<any, any> {
         }
     }
 
-    public componentWillReceiveProps(nextProps: Readonly<any>, nextContext: any): void {
-        if (nextProps.student !== this.state.student) {
-            this.setState({
-                student: nextProps.student
-            })
-        }
-    }
-
     public componentWillMount(): void {
         const authenticatedUser = AuthService.getAuthenticatedUser();
 
         this.setState({
-            email: authenticatedUser.email,
-            firstname: authenticatedUser.firstName,
-            lastname: authenticatedUser.lastName,
-            phone: authenticatedUser.phone,
-            address: authenticatedUser.address
-
+            student: {
+                email: authenticatedUser.email,
+                firstName: authenticatedUser.firstName,
+                lastName: authenticatedUser.lastName,
+                phone: authenticatedUser.phone,
+                address: authenticatedUser.address
+            }
         })
+    }
+
+    public componentWillReceiveProps(nextProps: Readonly<any>, nextContext: any): void {
+        if (nextProps.student !== this.state.student) {
+            this.setState((prevState: any) => ({
+                student: nextProps.student || prevState.student
+            }));
+        }
     }
 
     private handleSubmit = (e: any) => {
         e.preventDefault();
-
+        const { student } = this.state;
         const authenticatedUser = AuthService.getAuthenticatedUser();
 
+        let id;
+        if (this.state.student && this.state.student.id) {
+            id = this.state.student.id;
+        } else {
+            id = authenticatedUser.id;
+        }
         const user : IUser = {
-            id: authenticatedUser.id,
-            email: this.state.email,
-            firstName: this.state.firstname,
-            lastName: this.state.lastname,
-            phone: this.state.phone,
-            address: this.state.address
+            id,
+            email: student.email,
+            firstName: student.firstName,
+            lastName: student.lastName,
+            phone: student.phone,
+            address: student.address
         };
-
-        console.log(authenticatedUser);
-        const url =  'users/' + authenticatedUser.id;
+        const url =  'users/' + user.id;
 
         HttpService.doUpdateRequest<IUser>(url, user)
             .then(
@@ -65,10 +70,19 @@ export default class StudentProfile extends PureComponent<any, any> {
     }
 
     private handleChange = (e: any) => {
-        this.setState({
+        console.log(e.target.name, e.target.value);
+        const updates = {
             [e.target.name]: e.target.value
-        })
-    }
+        };
+
+        console.log(updates);
+        this.setState((prevState: any) => ({
+            student: {
+                ...prevState.student,
+                ...updates
+            }
+        }))
+    };
 
     handleButtonClick = () => {
         this.setState((state: any) => {
@@ -80,17 +94,18 @@ export default class StudentProfile extends PureComponent<any, any> {
 
     public render(): any {
         const { student } = this.state;
+        console.log(this.state);
         return(
             <div style={{marginTop: 16}}>
                 <form onSubmit={this.handleSubmit}>
                 <div> FirstName :
                     <label>
-                        <input type="text" name="firstname" value = {student.firstname || ''} onChange={this.handleChange}/>
+                        <input type="text" name="firstName" value = {student.firstName || ''} onChange={this.handleChange}/>
                     </label>
                 </div>
                 <div> Last Name :
                     <label>
-                        <input type="text" name="lastname" value = {student.lastname || ''} onChange={this.handleChange}/>
+                        <input type="text" name="lastName" value = {student.lastName || ''} onChange={this.handleChange}/>
                     </label>
                 </div>
                 <div> Email     :
