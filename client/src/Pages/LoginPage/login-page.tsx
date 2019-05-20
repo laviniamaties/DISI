@@ -15,7 +15,7 @@ class LoginPage extends Component {
     return(
       <div className="app text-center">
         <h1>Some kind of SINU</h1>
-        <LoginForm />
+        <LoginForm isLoginForm={true}/>
       </div>
     )
   }

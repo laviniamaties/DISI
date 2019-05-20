@@ -2,7 +2,7 @@ import axios from 'axios';
 import { IUser, Role } from '../Models/IUser';
 
 export default class HttpService {
-    private static root: string = 'http://localhost:26689/api/';
+    private static root: string = 'http://192.168.43.216:45455/api/';
 
     public static doGetRequest<T>(url: string): Promise<T[]> {
         return new Promise((resolve, reject) => {

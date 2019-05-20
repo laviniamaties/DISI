@@ -27,7 +27,7 @@ export default class LoginForm extends PureComponent<any, any> {
             role: this.state.role,
             id: 0
         };
-        const url = !this.state.isLoginForm ? 'users' : 'login';
+        const url = !this.props.isLoginForm ? 'users' : 'login';
 
         HttpService.doPostRequest<IUser>(url, user)
             .then(
@@ -42,9 +42,9 @@ export default class LoginForm extends PureComponent<any, any> {
                 }
             )
             .catch((error) => {
-                console.log(error)
+                console.log(error);
                 this.setState({
-                    errorMessage: !!error.data ? error.data : error
+                    errorMessage: !!error && !!error.data ? error.data : error
                 })
             })
     }
@@ -61,16 +61,13 @@ export default class LoginForm extends PureComponent<any, any> {
         })
     }
 
-    private togglRegisterState(e: any){
-        this.setState({isLoginForm: !this.state.isLoginForm, errorMessage: ''});
-    }
-
     public render(): any {
+        const { isLoginForm } = this.props;
         return (
             <div className="container">
                 <div className="row">
                     <div className="col text-center">
-                        <h1>{this.state.isLoginForm ? "Login" : "Register"}</h1>
+                        <h1>{isLoginForm ? "Login" : "Register"}</h1>
                         <form onSubmit={this.handleSubmit}>
                             <div className='login-form'>
                                 <div>Email</div>
@@ -91,7 +88,7 @@ export default class LoginForm extends PureComponent<any, any> {
                                     datatype={'password'}
                                 />
                                 {
-                                    !this.state.isLoginForm ?
+                                    !isLoginForm ?
                                     <div>
                                         <div>Type</div>
                                         <div>
@@ -104,10 +101,7 @@ export default class LoginForm extends PureComponent<any, any> {
                                     </div> : <div></div>
                                 }
                                 <div style={{color:'red'}}>{this.state.errorMessage}</div>
-                                <button className="btn btn-primary login-btn">{this.state.isLoginForm ? "Login" : "Register"}</button>
-                                <div>
-                                    <a href="#" onClick={(e) => this.togglRegisterState(e)}>{this.state.isLoginForm ? "Create an Account" : "Already have an account? Sign in"}</a>
-                                </div>
+                                <button className="btn btn-primary login-btn">{isLoginForm ? "Login" : "Register"}</button>
                             </div>
                         </form>
                     </div>
