@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react';
 import './student-grades.styles.css'
+import HttpService from '../../Services/http-service';
+import AuthService from '../../Services/auth-service';
 
 export default class StudentGradesComponent extends PureComponent<any, any> {
 
@@ -8,29 +10,27 @@ export default class StudentGradesComponent extends PureComponent<any, any> {
 
         this.state = {
             nodes: [
-                {
-                    ID: 1,
-                    title: "DISI",
-                    grade: 9
-                },
-                {
-                    ID: 2,
-                    title: "Distributed Systems",
-                    grade: 4
-                },
-                {
-                    ID: 3,
-                    title: "Logic Design",
-                    grade: 7
-                }
             ]
         }
+    }
+
+    componentDidMount() {
+        let id = AuthService.getAuthenticatedUser().id;
+
+        HttpService.doGetRequest<any>('/student/' + id).then(
+            (result) => {
+                this.setState({
+                    nodes: result
+                })
+            }
+        ).catch(error => console.log(error))
+
     }
 
     private renderNodes = (node: any, index: number): any => {
         return (
             <div  key={index} className="row grade-item">
-                <div className={"col-sm-10"}>{node.title}</div>
+                <div className={"col-sm-10"}>{node.studyClass}</div>
                 <div className={"col-sm-2"}>{node.grade}</div>
             </div>
         );
