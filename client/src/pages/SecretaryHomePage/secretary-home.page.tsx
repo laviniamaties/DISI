@@ -51,7 +51,7 @@ export default class SecretaryHomePage extends PureComponent<any, any> {
         const { student, studentList } = this.state;
         return (
             <div style={{alignItems: 'center', marginLeft: 32, marginTop: 32, width: '100%'}}>
-                <div className="input-group mb-3" style={{width: '73%'}}>
+                <div className="input-group mb-3" style={{width: '72%'}}>
                     <input type="text" name="title" className="form-control" placeholder="Group title"
                            aria-label="Group title" aria-describedby="basic-addon2" value={this.state.group.title} onChange={this.updateGroup}/>
                     <div className="input-group-append">
@@ -86,6 +86,7 @@ export default class SecretaryHomePage extends PureComponent<any, any> {
                 }
             )
             .catch((error) => {
+                console.log(error);
                 this.setState({
                     errorMessage: error
                 })
@@ -143,7 +144,6 @@ export default class SecretaryHomePage extends PureComponent<any, any> {
     private getStudentGroups = () => {
         HttpService.doGetRequest('group')
             .then(res => {
-                console.log(res);
                 this.setState({
                     studentGroups: res
                 });
