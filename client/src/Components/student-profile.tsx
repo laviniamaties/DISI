@@ -61,7 +61,7 @@ export default class StudentProfile extends PureComponent<any, any> {
     public render(): any {
         const { student } = this.state;
         return(
-            <div style={{marginTop: 16, width: '50%'}}>
+            <div style={{marginTop: 16}}>
                 <form onSubmit={this.handleSubmit}>
                 <div className="input-group mb-3">
                     <div className="input-group-prepend">

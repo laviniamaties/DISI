@@ -28,7 +28,7 @@ export default class StudentListComponent extends PureComponent<any, any> {
     public render(): any {
         const { studentList } = this.state;
         return(
-            <div className="list-group" style={{marginLeft: 16, marginTop: 16}}>
+            <div className="list-group" style={{ marginTop: 16}}>
                 <div className="list-group-item active">Students</div>
                 {
                     studentList.map((item: any, index: number) => {
