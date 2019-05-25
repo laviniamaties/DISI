@@ -61,32 +61,42 @@ export default class StudentProfile extends PureComponent<any, any> {
     public render(): any {
         const { student } = this.state;
         return(
-            <div style={{marginTop: 16}}>
+            <div style={{marginTop: 16, width: '50%'}}>
                 <form onSubmit={this.handleSubmit}>
-                <div> FirstName :
-                    <label>
-                        <input type="text" name="firstName" value = {student.firstName || ''} onChange={this.handleChange}/>
-                    </label>
+                <div className="input-group mb-3">
+                    <div className="input-group-prepend">
+                        <span className="input-group-text" id="basic-addon1">First name</span>
+                    </div>
+                    <input type="text" className="form-control" placeholder="First name" aria-label="First name"
+                           aria-describedby="basic-addon1" value={student.firstName || ''}/>
                 </div>
-                <div> Last Name :
-                    <label>
-                        <input type="text" name="lastName" value = {student.lastName || ''} onChange={this.handleChange}/>
-                    </label>
+                <div className="input-group mb-3">
+                    <div className="input-group-prepend">
+                        <span className="input-group-text" id="basic-addon1">Last name</span>
+                    </div>
+                    <input type="text" className="form-control" placeholder="Last name" aria-label="Last name"
+                           aria-describedby="basic-addon1" value={student.lastName || ''}/>
                 </div>
-                <div> Email     :
-                    <label>
-                        <input type="text" name="email" value = {student.email || ''} onChange={this.handleChange}/>
-                    </label>
+                <div className="input-group mb-3">
+                    <div className="input-group-prepend">
+                        <span className="input-group-text" id="basic-addon1">Email</span>
+                    </div>
+                    <input type="text" className="form-control" placeholder="Email" aria-label="Email"
+                           aria-describedby="basic-addon1" value={student.email || ''}/>
                 </div>
-                <div> Phone     :
-                    <label>
-                        <input type="text" name="phone" value = {student.phone || ''} onChange={this.handleChange}/>
-                    </label>
+                <div className="input-group mb-3">
+                    <div className="input-group-prepend">
+                        <span className="input-group-text" id="basic-addon1">Phone</span>
+                    </div>
+                    <input type="text" className="form-control" placeholder="Phone" aria-label="Phone"
+                           aria-describedby="basic-addon1" value={student.phone || ''}/>
                 </div>
-                <div> Address   :
-                    <label>
-                        <input type="text" name="address" value = { student.address || '' } onChange={this.handleChange}/>
-                    </label>
+                <div className="input-group mb-3">
+                    <div className="input-group-prepend">
+                        <span className="input-group-text" id="basic-addon1">Address</span>
+                    </div>
+                    <input type="text" className="form-control" placeholder="Address" aria-label="Address"
+                           aria-describedby="basic-addon1" value={student.address || ''}/>
                 </div>
                 <button className="btn btn-primary login-btn">Submit</button>
                 </form>
