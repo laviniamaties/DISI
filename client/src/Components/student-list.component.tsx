@@ -6,25 +6,24 @@ export default class StudentListComponent extends PureComponent<any, any> {
         super(props);
 
         this.state = {
-            studentList: [],
+            studentList: props.studentList,
             err: ''
         }
     }
 
-    public componentWillMount(): void {
-        HttpService.doGetRequest('users')
-            .then(res => {
-                this.setState({
-                    studentList: res.filter((item: any) => item.role === 0)
-                });
-            })
-            .catch(err => {
-                this.setState({
-                    err
-                })
-            })
-    }
+    public componentWillReceiveProps(nextProps: any, nextState: any): void {
+        const { studentList } = this.state;
 
+        const newState: any = {};
+
+        if (JSON.stringify(nextProps.studentList) !== JSON.stringify(studentList)) {
+            newState.studentList = nextProps.studentList;
+        }
+
+        if (Object.keys(newState).length) {
+            this.setState(newState);
+        }
+    }
 
     public render(): any {
         const { studentList } = this.state;

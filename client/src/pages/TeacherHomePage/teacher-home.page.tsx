@@ -3,15 +3,8 @@ import React, { PureComponent } from 'react';
 import AuthService from '../../Services/auth-service';
 import { Redirect } from 'react-router';
 
-interface ITeacherHomePageState {
-
-}
-
-interface ITeacherHomePageProps {
-
-}
-export default class TeacherHomePage extends PureComponent<ITeacherHomePageState, ITeacherHomePageProps> {
-    constructor(props: ITeacherHomePageProps) {
+export default class TeacherHomePage extends PureComponent<any, any> {
+    constructor(props: any) {
         super(props);
     }
 

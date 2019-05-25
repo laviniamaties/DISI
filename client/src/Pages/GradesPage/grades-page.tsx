@@ -1,6 +1,6 @@
-
 import React, { PureComponent } from 'react';
 import { Redirect } from 'react-router';
+
 import AuthService from '../../Services/auth-service';
 import './grades-page.css';
 import HttpService from '../../Services/http-service';
@@ -8,20 +8,7 @@ import { IStudyClass } from '../../Models/IStudyClass';
 
 export default class GradesPage extends PureComponent<any, any> {
     state = {
-        nodes: [
-            {
-                ID: 1,
-                Title: "teadas"
-            },
-            {
-                ID: 2,
-                Title: "teaadas"
-            },
-            {
-                ID: 3,
-                Title: "tedsadsaadas"
-            }
-        ],
+        nodes: [],
         activeClass: {
             id: 0,
             title: "",
@@ -29,18 +16,15 @@ export default class GradesPage extends PureComponent<any, any> {
         },
         activeClassId: -1,
         message: ''
-    }
+    };
 
-    /**
-     *
-     */
     constructor(props: any) {
         super(props);
         this.renderNode = this.renderNode.bind(this);
         this.renderUsers = this.renderUsers.bind(this);
     }
 
-    componentDidMount() {
+    public componentWillMount() {
         HttpService.doGetRequest<IStudyClass>('/studyclass').then(
             (result) => {
                 this.setState({
@@ -48,7 +32,37 @@ export default class GradesPage extends PureComponent<any, any> {
                 })
             }
         ).catch(error => console.log(error))
+    }
 
+    public render(): any {
+        let isAuth = AuthService.isAuth();
+        if (!isAuth) {
+            return <Redirect to='/login' />;
+        }
+        return (
+            <div className="container grades-container text-center">
+                ADD GRADES
+                <div className="row">
+                    {this.state.nodes.map(this.renderNode)}
+                </div>
+                <div>
+                    USERS
+                    <div className="succesMessage">{this.state.message}</div>
+                    {
+                        this.state.activeClass.id !== -1 ?
+                            <div>
+                                {this.state.activeClass.users.map(this.renderUsers)}
+                                {this.state.activeClass.users.length > 0 ?
+                                    <button className="btn btn-primary" onClick={() => this.saveGrades()}>Save</button>
+                                    : null
+                                }
+                            </div>
+                            :
+                            null
+                    }
+                </div>
+            </div>
+        )
     }
 
     setActiveClass = (node: any) => {
@@ -57,7 +71,7 @@ export default class GradesPage extends PureComponent<any, any> {
             activeClassId: node.id,
             message: ""
         })
-    }
+    };
 
     renderNode(node: any, index: number): JSX.Element {
         const activeClass = this.state.activeClassId === node.id ? "active" : "";
@@ -65,7 +79,7 @@ export default class GradesPage extends PureComponent<any, any> {
             <div onClick={() => this.setActiveClass(node)} key={index} className="col-sm-4">
                 <div className={`panel panel-default ${activeClass}`}>
                     <div className="panel-heading">
-                        <i className="fa fa-book"></i>
+                        <i className="fa fa-book" />
                     </div>
                     <div className="panel-body">
                         {node.title}
@@ -81,7 +95,7 @@ export default class GradesPage extends PureComponent<any, any> {
         let user = activeClass.users.find((u:any) => u.id === node.id) || {grade: 0};
         user.grade = e.target.value;
         this.setState({activeClass});
-    }
+    };
 
     renderUsers(node: any, index: number): JSX.Element {
         return (
@@ -114,33 +128,4 @@ export default class GradesPage extends PureComponent<any, any> {
         })
     }
 
-    public render(): any {
-        let isAuth = AuthService.isAuth();
-        if (!isAuth) {
-            return <Redirect to='/login' />;
-        }
-        return (
-            <div className="container grades-container text-center">
-                ADD GRADES
-                <div className="row">
-                    {this.state.nodes.map(this.renderNode)}
-                </div>
-                <div>USERS <div className="succesMessage">{this.state.message}</div>
-                    {
-                        this.state.activeClass.id !== -1 ?
-                            <div>
-                                {this.state.activeClass.users.map(this.renderUsers)}
-                                {this.state.activeClass.users.length > 0 ?
-                                    <button className="btn btn-primary" onClick={() => this.saveGrades()}>Save</button>
-                                    : <div></div>
-                                }
-                            </div>
-                            :
-                            <div>
-                            </div>
-                    }
-                </div>
-            </div>
-        )
-    }
 }

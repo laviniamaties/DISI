@@ -12,20 +12,6 @@ export default class StudentProfile extends PureComponent<any, any> {
         }
     }
 
-    public componentWillMount(): void {
-        const authenticatedUser = AuthService.getAuthenticatedUser();
-
-        this.setState({
-            student: {
-                email: authenticatedUser.email,
-                firstName: authenticatedUser.firstName,
-                lastName: authenticatedUser.lastName,
-                phone: authenticatedUser.phone,
-                address: authenticatedUser.address
-            }
-        })
-    }
-
     public componentWillReceiveProps(nextProps: Readonly<any>, nextContext: any): void {
         if (nextProps.student !== this.state.student) {
             this.setState((prevState: any) => ({
@@ -53,29 +39,17 @@ export default class StudentProfile extends PureComponent<any, any> {
             phone: student.phone,
             address: student.address
         };
-        const url =  'users/' + user.id;
 
-        HttpService.doUpdateRequest<IUser>(url, user)
-            .then(
-                (result) => {
-                    console.log('student / update successful');
-                }
-            )
-            .catch((error) => {
-                console.log(error)
-                this.setState({
-                    errorMessage: error
-                })
-            })
-    }
+        if (this.props.onUserUpdate) {
+            this.props.onUserUpdate(user);
+        }
+    };
 
     private handleChange = (e: any) => {
-        console.log(e.target.name, e.target.value);
         const updates = {
             [e.target.name]: e.target.value
         };
 
-        console.log(updates);
         this.setState((prevState: any) => ({
             student: {
                 ...prevState.student,
@@ -84,17 +58,8 @@ export default class StudentProfile extends PureComponent<any, any> {
         }))
     };
 
-    handleButtonClick = () => {
-        this.setState((state: any) => {
-          return {
-            open: !state.open,
-          };
-        });
-    }
-
     public render(): any {
         const { student } = this.state;
-        console.log(this.state);
         return(
             <div style={{marginTop: 16}}>
                 <form onSubmit={this.handleSubmit}>
