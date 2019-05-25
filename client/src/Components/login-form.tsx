@@ -98,7 +98,7 @@ export default class LoginForm extends PureComponent<any, any> {
                                                 <option>{Role[Role.Teacher]}</option>
                                             </select>
                                         </div>
-                                    </div> : <div></div>
+                                    </div> : null
                                 }
                                 <div style={{color:'red'}}>{this.state.errorMessage}</div>
                                 <button className="btn btn-primary login-btn">{isLoginForm ? "Login" : "Register"}</button>
