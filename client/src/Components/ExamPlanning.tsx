@@ -9,13 +9,14 @@ export default class ExamPlanning extends PureComponent<any, any> {
         super(props)
 
         this.state = {
-            teachers: [], 
-            groups: [], 
+            teachers: [],
+            groups: [],
             classes: [],
             datetime: null,
-            teacher: null, 
-            group: null, 
-            class: null
+            teacher: null,
+            group: null,
+            class: null,
+            exams: []
         }
     }
 
@@ -28,7 +29,6 @@ export default class ExamPlanning extends PureComponent<any, any> {
                     this.setState({
                         teachers: result.filter((u: any) => u.role == 1)
                     })
-                    console.log(result)
                 }
             )
         HttpService.doGetRequest<any>('/group')
@@ -38,7 +38,6 @@ export default class ExamPlanning extends PureComponent<any, any> {
                     this.setState({
                         groups: result
                     })
-                    console.log(result)
                 }
             )
         HttpService.doGetRequest<any>('/studyClass')
@@ -48,36 +47,51 @@ export default class ExamPlanning extends PureComponent<any, any> {
                     this.setState({
                         classes: result
                     })
-                    console.log(result)                }
+                }
+            )
+        HttpService.doGetRequest<any>('/exam')
+            .then(
+                (result) =>
+                {
+                    this.setState({
+                        exams: result
+                    })
+                    console.log(result)
+                }
             )
     }
 
-    handleGroupSelectChange = () => (value: any) =>{
+    handleGroupSelectChange = () => (value: any) =>
+    {
         this.setState({
             group: value
         })
     }
 
-    handleTeacherSelectChange = () => (value: any) => {
+    handleTeacherSelectChange = () => (value: any) =>
+    {
         this.setState({
             teacher: value
         })
     }
 
-    handleClassSelectChange = () => (value: any) =>{
+    handleClassSelectChange = () => (value: any) =>
+    {
         this.setState({
             class: value
         })
     }
 
-    handleDateTime = (e: any) => {
+    handleDateTime = (e: any) =>
+    {
         console.log(e.target.value)
         this.setState({
             datetime: e.target.value
         })
     }
 
-    addExam = () => {
+    addExam = () =>
+    {
         console.log(this.state)
         HttpService.doPostRequest<any>('/exam', {
             "GroupID": this.state.group.value,
@@ -85,13 +99,21 @@ export default class ExamPlanning extends PureComponent<any, any> {
             "StudyClassID": this.state.class.value,
             "Date": this.state.datetime
         })
-        .then(
-            (result) =>
-            {
+            .then(
+                (result) =>
+                {
+                    this.setState({
+                        exams: [...this.state.exams, result]
+                    })
+                    console.log(result)
+                }
+            )
+    }
 
-                console.log(result)
-            }
-        )
+    formatDate = (date: any) =>
+    {
+        console.log(date)
+        return date
     }
 
     public render(): any
@@ -110,10 +132,13 @@ export default class ExamPlanning extends PureComponent<any, any> {
         }));
         return (
             <div className="container">
+                <div className="row d-flex justify-content-center mt-3">
+                    <h2>Add new exam</h2>
+                </div>
                 <div className="row m-2">
                     <div className="col-sm-4">Start date:</div>
-                    <div className="col-sm-8"><input className="form-control" style={{width: '400px'}}  type="datetime-local"
-                        onChange={this.handleDateTime}/></div>
+                    <div className="col-sm-8"><input className="form-control" style={{ width: '400px' }} type="datetime-local"
+                        onChange={this.handleDateTime} /></div>
                 </div>
                 <div className="row m-2">
                     <div className="col-sm-4">Group:</div>
@@ -150,6 +175,20 @@ export default class ExamPlanning extends PureComponent<any, any> {
                     </div>                </div>
                 <div className="row d-flex justify-content-center mt-3">
                     <button className="btn btn-success" onClick={this.addExam}>Save</button>
+                </div>
+                <div className="row d-flex justify-content-center mt-3">
+                    <h2>All exams</h2>
+                </div>
+
+                <div className="row">
+                    {this.state.exams.map((e: any, key: any) =>
+                        <div className="col-sm-5 card m-4" style={{ width: '500px' }} key={key}>
+                            <div> <b>Group :</b> {e.group.title}</div>
+                            <div> <b>Class : </b>{e.studyClass.title}</div>
+                            <div> <b>Teacher : </b>{e.user.firstName + " " + e.user.lastName}</div>
+                            <div> <b>Date : </b> {this.formatDate(e.date)}</div>
+                        </div>
+                    )}
                 </div>
             </div>
         )
