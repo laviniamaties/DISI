@@ -1,15 +1,14 @@
 import React, { PureComponent } from 'react'
 import AuthService from '../Services/auth-service';
-import HttpService from '../Services/http-service';
-import { IUser, Role } from '../Models/IUser';
+import { IUser } from '../Models/IUser';
 
 export default class StudentProfile extends PureComponent<any, any> {
     constructor(props: any) {
         super(props);
 
         this.state = {
-            selectedGroup: undefined,
-            studentGroup: props.studentGroup,
+            group: props.group,
+            student: props.student,
             studentGroups: props.studentGroups
         }
     }
@@ -19,12 +18,11 @@ export default class StudentProfile extends PureComponent<any, any> {
         if (JSON.stringify(nextProps.studentGroups) !== JSON.stringify(this.state.studentGroups)) {
             newState.studentGroups = nextProps.studentGroups;
         }
-        if (JSON.stringify(nextProps.studentGroup) !== JSON.stringify(this.state.studentGroup)) {
-            newState.studentGroup = nextProps.studentGroup;
-            if (nextProps.studentGroups && nextProps.studentGroups.length) {
-                newState.selectedGroup = nextProps.studentGroups.find((item: any) => item.id == nextProps.studentGroup.group.id);
-                console.log(newState);
-            }
+        if (JSON.stringify(nextProps.student) !== JSON.stringify(this.state.student)) {
+            newState.student = nextProps.student;
+        }
+        if (JSON.stringify(nextProps.group) !== JSON.stringify(this.state.group)) {
+            newState.group = nextProps.group;
         }
 
         if (Object.keys(newState).length) {
@@ -33,11 +31,9 @@ export default class StudentProfile extends PureComponent<any, any> {
     }
 
     public render(): any {
-        const { studentGroup, studentGroups, selectedGroup } = this.state;
-        const { student, group } = studentGroup;
+        const { group, student, studentGroups } = this.state;
         return(
             <div style={{marginTop: 16}}>
-                <form onSubmit={this.handleSubmit}>
                 <div className="input-group mb-3">
                     <div className="input-group-prepend">
                         <span className="input-group-text" id="basic-addon1">First name</span>
@@ -78,7 +74,7 @@ export default class StudentProfile extends PureComponent<any, any> {
                         <span className="input-group-text" id="basic-addon1">Group</span>
                     </div>
                     <div>
-                        <select value={selectedGroup} onChange={this.selectGroup} className="form-control">
+                        {this.props.isSecretary && <select value={group.title} onChange={this.selectGroup} className="form-control">
                             {
                                 studentGroups.map((item: any, index: number) => {
                                     return (
@@ -86,38 +82,40 @@ export default class StudentProfile extends PureComponent<any, any> {
                                     );
                                 })
                             }
-                        </select>
+                        </select>}
                     </div>
                 </div>
                 <button className="btn btn-primary login-btn" onClick={this.handleSubmit}>Update profile</button>
-                <button className="btn btn-primary login-btn" onClick={this.handleUpdateGroup}>Update group</button>
-                </form>
+                {this.props.isSecretary && <button className="btn btn-primary login-btn" onClick={this.handleUpdateGroup}>Update group</button>}
             </div>
         )
     }
 
-    private selectGroup = () => {
+    private selectGroup = (e: any) => {
+        const { studentGroups } = this.state;
 
+        this.setState({
+            group: studentGroups.find((item: any) => item.title === e.target.value)
+        })
     };
 
     private handleSubmit = (e: any) => {
-        e.preventDefault();
-        const { studentGroup } = this.state;
+        const { student } = this.state;
         const authenticatedUser = AuthService.getAuthenticatedUser();
 
         let id;
-        if (this.state.studentGroup && this.state.studentGroup.student.id) {
-            id = this.state.studentGroup.student.id;
+        if (this.state.student && this.state.student.id) {
+            id = this.state.student.id;
         } else {
             id = authenticatedUser.id;
         }
         const user : IUser = {
             id,
-            email: studentGroup.student.email,
-            firstName: studentGroup.student.firstName,
-            lastName: studentGroup.student.lastName,
-            phone: studentGroup.student.phone,
-            address: studentGroup.student.address
+            email: student.email,
+            firstName: student.firstName,
+            lastName: student.lastName,
+            phone: student.phone,
+            address: student.address
         };
 
         if (this.props.onUserUpdate) {
@@ -126,9 +124,9 @@ export default class StudentProfile extends PureComponent<any, any> {
     };
 
     private handleUpdateGroup = () => {
-        const { studentGroup } = this.state;
+        const { student, group } = this.state;
         if (this.props.onGroupUpdate) {
-            this.props.onGroupUpdate(studentGroup);
+            this.props.onGroupUpdate(student, group);
         }
     };
 
@@ -138,12 +136,9 @@ export default class StudentProfile extends PureComponent<any, any> {
         };
 
         this.setState((prevState: any) => ({
-            studentGroup: {
-                ...prevState.studentGroup,
-                student: {
-                    ...prevState.studentGroup.student,
-                    ...updates
-                }
+            student: {
+                ...prevState.student,
+                ...updates
             }
         }))
     };

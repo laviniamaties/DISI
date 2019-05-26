@@ -25,11 +25,16 @@ namespace ServicesLibrary.Services
             }
         }
 
-        public UserGroup AddStudentToGroup(int groupId, int userId)
+        public void AddStudentToGroup(int groupId, int userId)
         {
             using (var uow = new UnitOfWork())
             {
                 var userGroupRepo = uow.GetRepository<UserGroup>();
+                var ugToUpdate = userGroupRepo.Entries().Where(item => item.UserID == userId).FirstOrDefault();
+                if (ugToUpdate != null)
+                {
+                    userGroupRepo.Delete(ugToUpdate);
+                }
                 var ug = new UserGroup
                 {
                     UserID = userId,
@@ -37,7 +42,6 @@ namespace ServicesLibrary.Services
                 };
                 userGroupRepo.Insert(ug);
                 uow.SaveChanges();
-                return ug;
             }
         }
     }

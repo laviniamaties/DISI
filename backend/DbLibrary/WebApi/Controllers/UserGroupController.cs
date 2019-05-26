@@ -38,7 +38,8 @@ namespace WebApi.Controllers
        [HttpPost]
         public IActionResult Post([FromBody]UserGroup userGroup)
         {
-            return Ok(_userGroupService.AddStudentToGroup(userGroup.GroupID, userGroup.UserID));
+            _userGroupService.AddStudentToGroup(userGroup.GroupID, userGroup.UserID);
+            return Ok();
         }
 
     }

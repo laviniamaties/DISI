@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { IUser, Role } from '../Models/IUser';
 
 export default class HttpService {
     private static root: string = 'http://localhost:26689/api/';
@@ -10,7 +9,7 @@ export default class HttpService {
                 resolve(response.data);
             })
             .catch(
-                (error: any) => {
+                (error: any) => {-
                     reject(error.response);
             })
         })

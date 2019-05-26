@@ -17,19 +17,13 @@ export default class SecretaryHomePage extends PureComponent<any, any> {
                 title: ''
             },
             selectedGroupId: 0,
-            studentGroup: {
-                student: {
-                    id: -1,
-                    firstname: '',
-                    lastname:'',
-                    email: '',
-                    phone: '',
-                    address: '',
-                },
-                group: {
-                    userId: -1,
-                    groupId: -1
-                }
+            student: {
+                id: -1,
+                firstName: '',
+                lastName:'',
+                email: '',
+                phone: '',
+                address: '',
             },
             studentList: [],
             studentGroups: []
@@ -45,8 +39,8 @@ export default class SecretaryHomePage extends PureComponent<any, any> {
     }
 
     public componentDidUpdate(prevProps: any, prevState: any): void {
-        if (this.state.studentGroup.student !== prevState.studentGroup.student) {
-            this.getStudentsByGroup(this.state.studentGroups[0].id);
+        if (this.state.student !== prevState.student) {
+            this.getStudentsByGroup(this.state.selectedGroupId);
         }
         if (this.state.group !== prevState.group) {
             this.getStudentGroups();
@@ -58,7 +52,7 @@ export default class SecretaryHomePage extends PureComponent<any, any> {
         if (!isAuth) {
             return <Redirect to='/login' />;
         }
-        const { studentGroup, studentList, studentGroups } = this.state;
+        const { group,   student, studentList, studentGroups } = this.state;
         return (
             <div style={{alignItems: 'center', marginLeft: 32, marginTop: 32, width: '100%'}}>
                 <div className="input-group mb-3" style={{width: '72%'}}>
@@ -78,9 +72,11 @@ export default class SecretaryHomePage extends PureComponent<any, any> {
                     <div className={'col-sm'}>
                         <StudentProfile
                             studentGroups={studentGroups}
-                            studentGroup={studentGroup}
+                            student={student}
+                            group={group}
                             onUserUpdate={this.onStudentUpdate}
                             onGroupUpdate={this.updateGroupForStudent}
+                            isSecretary={true}
                         />
                     </div>
                 </div>
@@ -100,7 +96,7 @@ export default class SecretaryHomePage extends PureComponent<any, any> {
                 {
                     studentGroups.map((item: any, index: number) => {
                         return (
-                            <button type="button" className="btn btn-secondary" key={index} onClick={this.getStudentsByGroup(item)}>{item.title}</button>
+                            <button type="button" className="btn btn-secondary" key={index} onClick={() => this.getStudentsByGroup(item.id)}>{item.title}</button>
                         );
                     })
                 }
@@ -108,14 +104,14 @@ export default class SecretaryHomePage extends PureComponent<any, any> {
         );
     };
 
-    private getStudentsByGroup = (group: any) => () => {
-        HttpService.doGetRequest(`usergroup/${group.id}`)
+    private getStudentsByGroup = (groupId: number) => {
+        HttpService.doGetRequest(`usergroup/${groupId}`)
             .then(res => {
-                console.log(res);
-                this.setState({
-                    selectedGroupId: group.id,
+                this.setState((prevState: any) => ({
+                    ...prevState,
+                    selectedGroupId: groupId,
                     studentList: res
-                });
+                }));
             })
             .catch(err => {
                 this.setState({
@@ -159,16 +155,11 @@ export default class SecretaryHomePage extends PureComponent<any, any> {
     };
     
     private selectStudent = (student: any) => {
-        this.setState((prevState: any) => ({
-            studentGroup: {
-                ...prevState.studentGroup,
-                student,
-                group: {
-                    userId: student.id,
-                    groupId: this.state.selectedGroupId
-                }
-            }
-        }))
+        const { studentGroups, selectedGroupId } = this.state;
+        this.setState({
+            student,
+            group: studentGroups.find((item: any) => item.id === selectedGroupId)
+        });
     };
 
     private onStudentUpdate = (student: any) => {
@@ -176,12 +167,17 @@ export default class SecretaryHomePage extends PureComponent<any, any> {
         HttpService.doUpdateRequest<IUser>(url, student)
             .then(
                 (result) => {
-                    this.setState((prevState: any) => ({
-                        studentGroup: {
-                            ...prevState.studentGroup,
-                            student: result
+                    console.log(result);
+                    this.setState({
+                        student: {
+                            id: -1,
+                            firstName: '',
+                            lastName:'',
+                            email: '',
+                            phone: '',
+                            address: '',
                         }
-                    }));
+                    });
                 }
             )
             .catch((error) => {
@@ -194,7 +190,6 @@ export default class SecretaryHomePage extends PureComponent<any, any> {
     private getStudentGroups = () => {
         HttpService.doGetRequest('group')
             .then(res => {
-                console.log(res);
                 this.setState({
                     studentGroups: res
                 });
@@ -204,9 +199,21 @@ export default class SecretaryHomePage extends PureComponent<any, any> {
                     err
                 })
             });
-    }
+    };
 
-    private updateGroupForStudent = (studentGroup: any) => {
-        console.log(studentGroup);
+    private updateGroupForStudent = (student: any, group: any) => {
+        const userGroup = {
+            userId: student.id,
+            groupId: group.id
+        };
+        HttpService.doPostRequest<any>('usergroup', userGroup)
+            .then(res => {
+                    console.log(res);
+                    this.getStudentsByGroup(this.state.selectedGroupId);
+                }
+            )
+            .catch(err => {
+                console.log(err)
+            })
     }
 }
