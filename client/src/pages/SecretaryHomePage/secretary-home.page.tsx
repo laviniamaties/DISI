@@ -127,7 +127,6 @@ export default class SecretaryHomePage extends PureComponent<any, any> {
         HttpService.doPostRequest<any>('usergroup', userGroup)
             .then(res =>
             {
-                console.log(res);
                 this.getStudentsByGroup(this.state.selectedGroupId);
             }
             )
@@ -172,7 +171,6 @@ export default class SecretaryHomePage extends PureComponent<any, any> {
                     studentList: res,
                     allStudents: newList
                 }));
-                console.log('dsadsa')
             })
             .catch(err =>
             {

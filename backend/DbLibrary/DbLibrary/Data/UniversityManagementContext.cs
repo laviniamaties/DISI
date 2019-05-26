@@ -20,6 +20,7 @@ namespace DbLibrary.Data
             modelBuilder.Entity<User>().ToTable("User");
             modelBuilder.Entity<StudyClass>().ToTable("StudyClass");
             modelBuilder.Entity<UserStudyClass>().ToTable("UserStudyClass");
+            modelBuilder.Entity<Exam>().ToTable("Exam");
 
             modelBuilder.Entity<User>()
                .Property(u => u.Email)

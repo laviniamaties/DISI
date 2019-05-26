@@ -29,6 +29,7 @@ namespace WebApi
             services.AddScoped<StudyClassService>();
             services.AddScoped<GroupService>();
             services.AddScoped<UserGroupService>();
+            services.AddScoped<ExamService>();
             services.AddCors();
             services.AddMvc();
         }
