@@ -27,7 +27,7 @@ class App extends BaseComponent {
             <Route path="/login" exact component={LoginPage} />
             <Route path="/teacher/classes/" component={GradesPage} />
             <Route path="/teacher/" component={TeacherHomePage} />
-            <Route exact path="/student/" component={StudentHomePage} />
+            <Route path="/student/" component={StudentHomePage} />
             <Route path="/secretary/users" component={SecretaryUsersPage} />
             <Route path="/secretary/examPlanning" component={ExamPlanning} />
             <Route path="/secretary/" component={SecretaryHomePage} />
