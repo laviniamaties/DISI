@@ -30,6 +30,7 @@ namespace WebApi
             services.AddScoped<GroupService>();
             services.AddScoped<UserGroupService>();
             services.AddScoped<ExamService>();
+            services.AddScoped<EmailService>();
             services.AddCors();
             services.AddMvc();
         }
