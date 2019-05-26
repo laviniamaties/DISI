@@ -23,8 +23,6 @@ class Header extends PureComponent<any, any> {
             case 0: {
                 nodes = [ {
                     title: 'Home', link: '/student'
-                }, {
-                    title: 'Profile', link: '/student/profile'
                 } ];
                 break;
             }
