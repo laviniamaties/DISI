@@ -1,4 +1,5 @@
-﻿using DbLibrary.Model;
+﻿using DbLibrary;
+using DbLibrary.Model;
 using DbLibrary.Repository;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -26,6 +27,8 @@ namespace ServicesLibrary.Services
             using (var uow = new UnitOfWork())
             {
                 var userStudyClassRepo = uow.GetRepository<UserStudyClass>();
+                var userRepo = uow.GetRepository<User>();
+                var studyClassRepo = uow.GetRepository<StudyClass>();
 
                 var entity = userStudyClassRepo.Entries().Where(uc => uc.UserID == userId && uc.StudyClassID == studyClassId).FirstOrDefault();
 
@@ -35,6 +38,12 @@ namespace ServicesLibrary.Services
                 }
                 else
                 {
+                    var user = userRepo.Find(userId);
+                    var studyclass = studyClassRepo.Find(studyClassId);
+                    var body = "Your grade for " + studyclass.Title + " is " + grade;
+                    var emailService = new EmailService();
+                    emailService.SendEmail("Grade added / updated!", body, new List<User> { user });
+
                     entity.Grade = grade;
                     userStudyClassRepo.Edit(entity);
                     uow.SaveChanges();
