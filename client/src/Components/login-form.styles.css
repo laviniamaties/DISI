@@ -1,0 +1,18 @@
+.container{
+    margin-top: 50px;
+    background: #f7f7f7;
+    width: 700px;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.login-form input.form-control, .login-form select.form-control{
+    width: 70%;
+    display: inline;
+}
+
+.login-btn{
+    margin-top: 20px;
+    width: 70%;
+    margin-bottom: 10px;
+}
